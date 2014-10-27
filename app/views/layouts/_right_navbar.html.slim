@@ -1,0 +1,7 @@
+ul.nav.navbar-nav.navbar-right
+  li.current-company title="Company profile"
+    - profile_text = "<span class=\"fa fa-anchor profile-icon\"> Profile</span>"
+    = link_to_unless_current profile_text.html_safe, profile_url do
+      span.this-page= profile_text.html_safe
+  li
+    = link_to "Sign out", log_out_url, method: :delete

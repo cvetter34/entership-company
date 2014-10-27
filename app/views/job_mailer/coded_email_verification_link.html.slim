@@ -1,0 +1,8 @@
+p
+  ' To verify that your contact email is correct for job listing "#{@job.title}"
+  ' please follow the coded link below:
+
+p = link_to "#{email_verification_url(@job.verification_code)}", \
+  email_verification_url(@job.verification_code)
+
+p Thank you!

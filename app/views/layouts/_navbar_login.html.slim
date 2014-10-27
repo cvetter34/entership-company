@@ -1,0 +1,10 @@
+.navbar-collapse.collapse
+  = form_for :company, url: log_in_url, html: { class: "navbar-form navbar-right", role: "form" } do |f|
+    .form-group>
+      = f.label :email, "Email address", class: "sr-only"
+      = f.text_field :email, class: "form-control input-sm", placeholder: "Email address", required: true
+    .form-group>
+      = f.label :password, "Password", class: "sr-only"
+      = f.password_field :password, class: "form-control input-sm", placeholder: "Password", required: true
+    input#form-type type="hidden" name="form" value="login"
+    = f.submit "Sign in", class: "btn btn-success btn-xs"

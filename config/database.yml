@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  username: rails
+  password: '!QAZxsw2#EDC'
+
+development:
+  <<: *default
+  database: entership_dev
+
+test:
+  <<: *default
+  database: entership_test
+
+production:
+  <<: *default
+  database: entership

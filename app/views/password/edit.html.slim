@@ -1,0 +1,29 @@
+= form_for @company, url: reset_password_url(@company.password_reset_code), method: :patch, html: { class: "reset-form" } do |f|
+  fieldset
+    legend.col-md-8.col-md-offset-2.col-sm-12
+      .pull-right
+        ' or
+        = link_to "sign in", root_url
+      ' Choose a new password
+    .reset-form.row
+      .col-md-4.col-md-offset-2.col-sm-6.col-xs-12
+        .form-group
+          = f.label :password, class: "sr-only"
+          = f.password_field :password, class: "form-control showable-password", placeholder: "New password", required: true
+        .form-group
+          = f.label :password_confirmation, class: "sr-only"
+          = f.password_field :password_confirmation, class: "form-control showable-password", placeholder: "Type it again", required: true
+        .form-group
+          => f.submit "Save", class: "btn btn-success metered"
+          button#show-password-button.btn.btn-warning data-state="show" Show Passwords
+      .col-md-4.col-xs-12.col-sm-6
+        p#pw-quality.pw-quality Password too weak!
+        #pw-meter.strength-meter.progress.progress-striped
+          #strength-meter.meter.progress-bar role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+            #pct-strength.sr-only 0% strength
+        .crack-div
+          strong> Time to crack:
+          span#time-to-crack instant
+        #match-div.match-div
+
+script src="/js/zxcvbn-async.js"

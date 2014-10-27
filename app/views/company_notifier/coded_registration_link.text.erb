@@ -1,0 +1,8 @@
+To complete your EnterShip registration, please follow the coded link below:
+
+<%= registration_form_url(@registrant.sign_up_code) %>
+
+If you received this email in error, simply do nothing. The above link will expire at <%= @registrant.sign_up_expires_at.to_formatted_s(:mail_timestamp) %>.
+
+Thanks!
+EnterShip

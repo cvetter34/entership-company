@@ -1,0 +1,10 @@
+footer.footer
+  .container
+    nav.footer-navbar
+      =<> link_to_unless_current "Privacy", privacy_policy_url do |text|
+        span.current-page = text
+      ' &bull;
+      =<> link_to_unless_current "Terms", terms_of_use_url do |text|
+        span.current-page = text
+    span.copyright title="Version: #{request.variant.map {|v| v.to_s.titleize }.join(", ")}"
+      ' &copy; #{Date.today.year} by entership.net

@@ -1,0 +1,50 @@
+= form_for @company, url: register_url( params[:code] ), \
+  html: { class: "registration-form" } do |f|
+  fieldset
+    legend Complete registration for #{@company.email}
+    .reset-form.row.required
+      .col-sm-6.col-xs-12
+        .form-group
+          = f.label :password, "Choose a password"
+          = f.password_field :password, class: "form-control showable-password", \
+            placeholder: "Choose a password", required: true, autofocus: true
+        .form-group
+          = f.label :password_confirmation, "Type it again"
+          = f.password_field :password_confirmation, \
+            class: "form-control showable-password", \
+            placeholder: "Type your password again", required: true
+        .form-group
+          button#show-password-button.btn.btn-warning.pull-right data-state="show" Show Passwords
+      .col-sm-6.col-xs-12
+        p#pw-quality.pw-quality Password too weak!
+        #pw-meter.strength-meter.progress.progress-striped
+          #strength-meter.meter.progress-bar role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+            #pct-strength.sr-only 0% strength
+        .crack-div
+          strong> Time to crack:
+          span#time-to-crack instant
+        #match-div.match-div
+
+    .row.required
+      .packages.clearfix
+        .col-sm-6
+          div
+            label Package
+          label.checkboxes.has-help data-help-id="company-package-0-help"
+            => f.radio_button :package, "0", checked: true
+            ' CAPE package, $1500 USD/year
+          br
+          label.checkboxes.has-help data-help-id="company-package-1-help"
+            =<> f.radio_button :package, "1"
+            ' HANDY package, $1200 USD/year
+        .col-sm-6
+          p#company-package-0-help.help-text
+            ' Unlimited access, unlimited job listings.
+          p#company-package-1-help.help-text
+            ' Unlimited access, six (6) job listings per year.
+
+    == render partial: "shared/company_form", locals: { f: f, company: @company, auto: false }
+    .form-group
+      => f.submit "Complete registration", class: "btn btn-success metered", disabled: true
+
+script src="/js/zxcvbn-async.js"

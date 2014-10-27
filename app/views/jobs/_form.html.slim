@@ -1,0 +1,200 @@
+= form_for @job, url: (@job.persisted? ? job_url( @job ) : jobs_url) do |f|
+  fieldset
+    legend
+      - if @job.persisted?
+        .pull-right
+          = link_to "Add a new listing", new_job_url
+        ' Edit
+        span.job-title> = @job.title
+        ' job
+      - else
+        ' Add a new job listing
+
+    .row.required
+      .col-sm-6
+        = f.label :posted_on, "Opening date"
+        .form-group
+          #opens-on-datepicker.input-group.date
+            = f.text_field :posted_on, class: "form-control has-help", placeholder: "Enter the date this will post", \
+              data: { "help-id" => "opens-on-help" }, autofocus: true
+            span.input-group-addon
+              span.fa.fa-calendar title="Select a date"
+      .col-sm-6
+        p#opens-on-help.help-text This is the date on which this listing goes live.
+
+    .row.optional
+      .col-sm-6
+        = f.label :deadline_on, "Deadline date"
+        .form-group
+          #closes-on-datepicker.input-group.date
+            = f.text_field :deadline_on, class: "form-control has-help", placeholder: "Enter the deadline to apply", \
+              data: { "help-id" => "closes-on-help" }
+            span.input-group-addon
+              span.fa.fa-calendar title="Select a date"
+      .col-sm-6
+        p#closes-on-help.help-text This is the date on which this listing closes.
+
+
+    .row.required
+      .col-sm-6
+        .form-group
+          = f.label :title
+          = f.text_field :title, class: "form-control has-help", placeholder: "Enter job title", \
+            data: { "help-id" => "job-title-help" }
+      .col-sm-6
+        p#job-title-help.help-text The job title is used in headings, link labels, etc.
+
+    .row.required
+      .col-sm-6
+        .form-group
+          = f.label :sector
+          = f.select :sector, options_for_company_sector(@job.sector), \
+            {}, { class: "form-control has-help", data: { "help-id" => "job-sector-help" } }
+      .col-sm-6
+        p#job-sector-help.help-text This is the sector for the job.
+
+    .row.required
+      .col-sm-6
+        .form-group
+          = f.label :country_code, "Country"
+          = f.country_select :country_code, { priority_countries: ["HK"], prompt: "Select the country" }, \
+            class: "form-control has-help", data: { "help-id" => "country-help" }
+      .col-sm-6
+        p#country-help.help-text This is the country in which the job is located (for search).
+
+    .row.required
+      .col-sm-6
+        .form-group
+          = f.label :email, "Contact email"
+          = f.text_field :email, class: "form-control has-help", placeholder: "Enter contact email", \
+            data: { "help-id" => "job-email-help" }
+      .col-sm-6
+        p#job-email-help.help-text The email to which applications should be sent.
+
+    .row.required
+      .col-sm-6
+        .form-group
+          = f.label :contract_type
+          = f.select :contract_type, options_for_contract_type(@job.contract_type), \
+            {}, { class: "form-control has-help", data: { "help-id" => "job-contract-type-help" } }
+      .col-sm-6
+        p#job-contract-type-help.help-text This is the type of contract for the job.
+
+    .row.required
+      .col-sm-6
+        .form-group
+          = f.label :num_positions, "Number of available positions"
+          = f.number_field :num_positions, class: "form-control has-help", \
+            placeholder: "Enter number of positions available", \
+            data: { "help-id" => "job-num-positions-help" }, min: 1, step: 1
+      .col-sm-6
+        p#job-num-positions-help.help-text The number of positions available.
+
+    .row.required
+      .col-sm-6
+        .form-group
+          = f.label :description
+          = f.text_area :description, class: "form-control has-help", placeholder: "Enter description", \
+            data: { "help-id" => "description-help" }
+      .col-sm-6
+        p#description-help.help-text
+          ' The description is your opportunity to sell the job. Please include anything that you
+          ' think is important, but which is not covered in other fields in this form (e.g., do not
+          ' duplicate salaray data).
+
+    .row.optional
+      .col-sm-6
+        .form-group
+          = f.label :job_reference
+          = f.text_field :job_reference, class: "form-control has-help", \
+            placeholder: "Enter the job reference number", \
+            data: { "help-id" => "job-job-reference-help" }
+      .col-sm-6
+        p#job-job-reference-help.help-text The job reference number (included in the email).
+
+    .row.optional
+      .col-sm-6
+        .form-group
+          = f.label :responsibilities
+          = f.text_area :responsibilities, class: "form-control has-help", \
+            placeholder: "Enter job responsibilities", \
+            data: { "help-id" => "responsibilities-help" }
+      .col-sm-6
+        p#responsibilities-help.help-text
+          ' List all the responsibilities of this position.
+
+    .row.optional
+      .col-sm-6
+        .form-group
+          = f.label :ideal_candidate
+          = f.text_area :ideal_candidate, class: "form-control has-help", \
+            placeholder: "Enter qualifications of ideal candidate.", \
+            data: { "help-id" => "ideal-candidate-help" }
+      .col-sm-6
+        p#ideal-candidate-help.help-text
+          ' List the qualifications for your ideal candidate.
+
+    .row.optional
+      .col-sm-6
+        .form-group
+          = f.label :city
+          = f.text_field :city, class: "form-control has-help", placeholder: "Enter the city", \
+            data: { "help-id" => "job-city-help" }
+      .col-sm-6
+        p#job-city-help.help-text The city in which this job is located.
+
+    .row.optional
+      .col-sm-6
+        .form-group
+          = f.label :postal_code, "Postal or zip code"
+          = f.text_field :postal_code, class: "form-control has-help", placeholder: "Enter the postal code", \
+            data: { "help-id" => "job-postal-code-help" }
+      .col-sm-6
+        p#job-postal-code-help.help-text The postal code or zip code in which this job is located.
+
+    .row.optional
+      .col-sm-6
+        .form-group
+          = f.label :experience_level
+          = f.select :experience_level, options_for_experience_level(@job.experience_level), \
+            {}, { class: "form-control has-help", data: { "help-id" => "experience-help" } }
+      .col-sm-6
+        p#experience-help.help-text This is the minimum required experience for the job.
+
+    .row.optional
+      .col-sm-6
+        .row
+          .col-xs-12
+            = f.label :salary_cents, "Salary"
+          .col-sm-3
+            .form-group
+              = f.text_field :salary_cents, class: "form-control has-help", placeholder: "Enter salary", \
+                data: { "help-id" => "salary-help" }
+          .col-sm-5
+            .form-group
+              = f.label :salary_currency, "Currency", class: "sr-only"
+              = f.select :salary_currency, options_for_select(Job.currencies), {}, \
+                { class: "form-control has-help", data: { "help-id" => "salary-help" } }
+          .col-sm-1
+            .per per
+          .col-sm-3
+            .form-group
+              = f.label :salary_frequency, "Salary frequency", class: "sr-only"
+              = f.select :salary_frequency, options_for_select(Job.ok_frequencies.to_a), {}, \
+                { class: "form-control has-help", data: { "help-id" => "salary-help" } }
+      .col-sm-6
+        p#salary-help.help-text
+          ' You can choose an amount (no cents), a currency type, and the pay period (month, year, etc.)
+
+    .row.optional
+      .col-sm-6
+        .form-group
+          = f.label :contact_person
+          = f.text_field :contact_person, class: "form-control has-help", placeholder: "Enter the contact person's name", \
+            data: { "help-id" => "contact-help" }
+      .col-sm-6
+        p#contact-help.help-text This is the name of the contact person for this listing.
+
+    .row
+      .col-sm-12
+        = f.submit class: "btn btn-warning"

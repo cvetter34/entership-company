@@ -1,0 +1,18 @@
+.col-md-8
+  table.table
+    caption
+      ' Open job applications
+    thead
+      tr
+        th From
+        th Title
+        th.numerical # positions
+        th Received
+    tbody
+      - @open_apps.each do |app|
+        tr
+          td = link_to app.member.full_name, app_url(app)
+          td = link_to app.job.title, job_url(app.job)
+          td.numerical = app.job.num_positions
+          td title="#{app.created_at.to_formatted_s(:table_date)}"
+            = local_time_ago app.created_at

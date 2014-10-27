@@ -1,0 +1,86 @@
+- breadcrumb :app, @app
+
+.row
+  .col-md-12
+    h1 class="#{@app.status}"
+      - status = App.ok_statuses.to_a[@app.status][0]
+      ' #{status.titleize} application for
+      =<> link_to "#{@app.job.title} (#{@app.job.company.name})", job_url(@app.job)
+
+.app-detail
+  .row
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Posted
+        .col-xs-8
+          p.posted title="#{@app.created_at.to_formatted_s(:mail_timestamp)}"
+            ' #{@app.created_at.to_formatted_s(:mail_timestamp)}
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Status
+        .col-xs-8
+          p #{status.upcase}
+
+  .row
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Name
+        .col-xs-8
+          p = @app.name
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Age
+        .col-xs-8
+          p = @app.age
+
+  .row
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Nationality
+        .col-xs-8
+          p = @app.nationality
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Country
+        .col-xs-8
+          p = @app.country
+
+  .row
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Phone
+        .col-xs-8
+          p = @app.phone
+    .col-md-6
+      .row
+        .col-xs-4
+          p class="field-#{status}" Email
+        .col-xs-8
+          p = @app.email
+
+  .row
+    .col-md-2.col-xs-12
+      .show-label
+        p class="field-#{status}" Right to work
+    .col-md-10.col-xs-12
+      .show-value
+        ' I
+        => content_tag(:strong, "do not") unless @app.has_right_to_work
+        ' have the right to work in #{@app.job.country}.
+        - if @app.has_work_permit
+          br
+          ' My right to work in #{@app.job.country} is by work permit or visa:
+          .work-permit-detail = @app.work_permit_detail_as_html
+  - unless @app.comments.blank?
+    .row
+      .col-md-2.col-xs-12
+        .show-label Comments
+      .col-md-10.col-xs-12
+        .show-value = @app.comments_as_html

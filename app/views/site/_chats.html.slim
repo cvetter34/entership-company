@@ -1,0 +1,19 @@
+.col-md-4
+  table.table
+    caption
+      = link_to "My chats", chats_url
+    thead
+      tr
+        th.sender-recipient
+        th Topic
+        th Date
+    tbody
+      - @chats.each do |chat|
+        - sr = chat.is_sender(@current_company)
+        tr class="#{sr ? 'sender' : 'recipient'}" title="#{sr ? 'You initiated' : 'They initiated'}"
+          td.sender-recipient
+            span class="fa fa-arrow-#{sr ? 'right' : 'left'} fa-lg"
+          td class="#{chat.has_unseen_messages?(@current_company) ? 'unread' : ''}"
+            = link_to chat.topic(@current_company), chat_url(chat)
+          td title="#{chat.created_at.to_formatted_s(:table_date)}"
+            = local_time_ago chat.created_at

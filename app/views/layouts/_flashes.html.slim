@@ -1,0 +1,8 @@
+- flash.each do |name, message|
+  - if message.is_a?(String) || message.is_a?(ActiveModel::Errors)
+    - if message.is_a?(ActiveModel::Errors)
+      - msg = errors_to_ul(message)
+    - else
+      - msg = message
+    - noty_type = (name == :notice ? "success" : "error")
+    - timeout = (name == :notice ? 4000 : 30000)

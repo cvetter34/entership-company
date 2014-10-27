@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    h1 Welcome to the Entership Company Portal
+
+.row
+  .col-md-8.col-sm-12
+    p
+      ' There are two packages from which to choose. You'll be asked to select
+      ' one upon sign up.
+
+    .row
+      .col-md-6.col-sm-12
+        = render partial: "site/col_left"
+
+      .col-md-6.col-sm-12
+        = render partial: "site/col_right"
+
+  .col-md-4.col-sm-12
+    - unless @current_company
+      = render partial: "site/login_form"

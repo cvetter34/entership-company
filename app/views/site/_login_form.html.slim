@@ -1,0 +1,20 @@
+.login-pills
+  ul.nav.nav-pills.login-options
+    li class="#{'active' if @form_type == 'login'}"
+      a#login-pill href="#" Sign in
+    li class="#{'active' if @form_type == 'register'}"
+      a#enrollment-pill href="#" Sign up
+    li class="#{'active' if @form_type == 'reset'}"
+      a#reset-pill href="#" Reset Password
+= form_for :company, url: log_in_url, html: { class: "login-form" } do |f|
+  fieldset
+    legend Please sign in
+    .form-group
+      = f.label :email, class: "sr-only"
+      = f.text_field :email, class: "form-control", placeholder: "Email address", value: @email
+    .form-group
+      = f.label :password, class: "sr-only"
+      = f.password_field :password, class: "form-control", placeholder: "Password"
+    .form-group
+      input#form-type type="hidden" name="form" value="login"
+      = f.submit "Sign in", class: "btn btn-success", id: "submit-button"

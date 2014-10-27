@@ -1,0 +1,30 @@
+- breadcrumb :apps
+
+table.table.apps
+  caption
+    ' Job applications
+  thead
+    tr
+      th Member
+      th Job
+      th Status
+      th.tools
+  tbody
+    - @apps.each do |app|
+      - positions =  "(#{app.job.num_positions} #{'position'.pluralize(app.job.num_positions)})"
+      tr class="#{app.status}-row"
+        td = link_to app.member.full_name, app_url(app), title: "View application for #{app.member.name}"
+        td = link_to "#{app.job.title} #{positions}", job_url(app.job), title: "View listing for #{app.job.title}"
+        td = App.ok_statuses.to_a[app.status][0].titleize
+        td.tools
+          - approve_txt = '<span class="fa fa-thumbs-o-up fa-lg app-approve-icon"></span>'.html_safe
+          =<> link_to_unless app.is_approved?, approve_txt, job_app_url(app.job, app, approved: "yes"), class: "app-status-link", method: :patch, title: "Approve application" do |txt|
+            span.current-status = txt
+          - reopen_txt = '<span class="fa fa-question fa-lg app-reopen-icon"></span>'.html_safe
+          =<> link_to_unless app.is_open?, reopen_txt, job_app_url(app.job, app, pending: "yes"), class: "app-status-link", method: :patch, title: "Re-open application" do |txt|
+            span.current-status = txt
+          - decline_txt = '<span class="fa fa-thumbs-o-down fa-lg app-decline-icon"></span>'.html_safe
+          =<> link_to_unless app.is_declined?, decline_txt, job_app_url(app.job, app, declined: "yes"), class: "app-status-link", method: :patch, title: "Decline application" do |txt|
+            span.current-status = txt
+          - delete_txt = '<span class="fa fa-times fa-lg app-delete-icon"></span>'.html_safe
+          =<> link_to delete_txt, job_app_url(app.job, app), class: "app-status-link", method: :delete, title: "Delete application permanently"

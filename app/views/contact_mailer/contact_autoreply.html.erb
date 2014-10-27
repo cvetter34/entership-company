@@ -1,0 +1,13 @@
+<p>
+  You sent the following to info@entership.net:
+</p>
+
+<%= @body %>
+
+<p>
+  At <%= @contact.created_at.to_formatted_s(:mail_timestamp) %>
+</p>
+
+<p>
+  We will get back to you shortly.
+</p>

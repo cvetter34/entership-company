@@ -1,4 +1,4 @@
-entership-company
-=================
+EntershipCompanies
+========
 
-Final Entership company app.
+Entership company interface site.

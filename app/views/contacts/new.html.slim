@@ -1,0 +1,47 @@
+.row
+  .col-md-12
+    h1 Contact us
+.row
+  .col-md-6
+    p
+      ' Duis vel nibh at velit scelerisque suscipit. Nam eget dui. Mauris turpis
+      ' nunc, blandit et, volutpat molestie, porta ut, ligula. Vestibulum eu odio.
+      ' Duis vel nibh at velit scelerisque suscipit.
+    p
+      ' Nulla porta dolor. Vestibulum rutrum, mi nec elementum vehicula, eros quam
+      ' gravida nisl, id fringilla neque ante vel mi. Praesent metus tellus,
+      ' elementum eu, semper a, adipiscing nec, purus. Nam pretium turpis et arcu.
+      ' Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc,
+      ' vitae euismod ligula urna in dolor.
+    p
+      ' Phasellus consectetuer vestibulum elit. Sed hendrerit. Phasellus viverra
+      ' nulla ut metus varius laoreet. Etiam iaculis nunc ac metus. Praesent ac
+      ' massa at ligula laoreet iaculis.
+    p
+      ' Curabitur nisi. Vestibulum eu odio. Donec vitae orci sed dolor rutrum
+      ' auctor. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
+      ' Cras dapibus.
+    p
+      ' Nullam nulla eros, ultricies sit amet, nonummy id, imperdiet feugiat,
+      ' pede. Phasellus magna. Maecenas nec odio et ante tincidunt tempus.
+      ' Praesent nonummy mi in odio. Suspendisse nisl elit, rhoncus eget,
+      ' elementum ac, condimentum eget, diam.
+  .col-md-6
+    - if @current_company
+      = form_for @contact, url: contact_url do |f|
+        fieldset
+          legend
+            ' Send a message to EnterShip
+          p.from-line From #{@current_company.name}
+          .form-group
+            = f.label :subject, class: "sr-only"
+            = f.text_field :subject, class: "form-control", placeholder: "Subject"
+          .muted.pull-right
+            ' You can use
+            a href="http://daringfireball.net/projects/markdown/syntax" Markdown Syntax
+          .form-group
+            = f.label :body, class: "sr-only"
+            = f.text_area :body, class: "form-control larger-area", placeholder: "Message"
+          = f.submit "send your message", class: "btn btn-warning"
+    - else
+      p Public contact information goes here.

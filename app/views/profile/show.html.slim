@@ -1,0 +1,87 @@
+.row
+  .col-xs-12
+    h1
+      .pull-right.view-link
+        => link_to "Edit", edit_profile_url(@current_company), \
+          title: "Edit #{@current_company.name}", class: "btn btn-success"
+
+        button.btn.btn-danger data-url="#{profile_url}" data-name="#{@current_company.name}" data-redirect="#{root_url}"
+          ' Delete your account
+
+      = @current_company.name
+.row
+  .col-xs-12
+    .row
+      .col-md-2.col-xs-4
+        .show-label Address
+      .col-md-4.col-xs-8
+        .show-value = @current_company.address.gsub(/\n/, "<br>").html_safe
+      .col-md-2.col-xs-4
+        .show-label Alternate address
+      .col-md-4.col-xs-8
+        - unless @current_company.address_alt.blank?
+          .show-value = @current_company.address_alt.gsub(/\n/, "<br>").html_safe
+    .row
+      .col-md-2.col-xs-4
+        .show-label Country
+      .col-md-4.col-xs-8
+        .show-value = @current_company.country
+      .col-md-2.col-xs-4
+        .show-label Year founded
+      .col-md-4.col-xs-8
+        .show-value = @current_company.year_founded
+    .row
+      .col-md-2.col-xs-4
+        .show-label Sectors
+      .col-md-4.col-xs-8
+        .show-value = @current_company.sectors.map {|s| Company.ok_sectors.to_a[s.to_i][0]}.join("<br>").html_safe
+      .col-md-2.col-xs-4
+        .show-label Phone numbers
+      .col-md-4.col-xs-8
+        .show-value
+          ' #{@current_company.phone} (main)
+          - unless @current_company.mobile.blank?
+            br
+            ' #{@current_company.mobile} (mobile)
+          - unless @current_company.fax.blank?
+            br
+            ' #{@current_company.fax} (fax)
+    .row
+      .col-md-2.col-xs-4
+        .show-label Type
+      .col-md-4.col-xs-8
+        - unless @current_company.company_type.blank?
+          .show-value = Company.ok_company_types.to_a[@current_company.company_type][0]
+      .col-md-2.col-xs-4
+        .show-label Size
+      .col-md-4.col-xs-8
+        .show-value = Company.ok_company_sizes.to_a[@current_company.company_size][0]
+    .row
+      .col-md-2.col-xs-4
+        .show-label Website
+      .col-md-4.col-xs-8
+        .show-value = link_to @current_company.website_url, "//#{@current_company.website_url}"
+      .col-md-2.col-xs-4
+        .show-label Login Email
+      .col-md-4.col-xs-8
+        .show-value = link_to @current_company.email, "mailto:#{@current_company.email}"
+    .row
+      .col-md-2.col-xs-4
+        .show-label Contact person
+      .col-md-4.col-xs-8
+        .show-value = @current_company.contact_person
+      .col-md-2.col-xs-4
+        .show-label Contact email
+      .col-md-4.col-xs-8
+        .show-value = @current_company.contact_email
+    .row
+      .col-md-2.col-xs-12
+        .show-label Description
+      .col-md-10.col-xs-12
+        .show-value = @current_company.description_as_html
+    - unless @current_company.logo.url(:medium) == "/logos/medium/missing.png"
+      .row
+        .col-md-2.col-xs-12
+          .show-label Logo
+        .col-md-10.col-xs-12
+          .show-value = image_tag @current_company.logo.url(:medium), class: "profile-logo"

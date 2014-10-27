@@ -1,0 +1,116 @@
+- if @company then breadcrumb( :company_job, @job ) else breadcrumb( :job, @job )
+- cls = @job.is_open? ? "field-name-open" : "field-name-closed"
+
+.row
+  .col-xs-12
+    h1
+      .pull-right
+        ' #{@job.num_positions} #{"opening".pluralize(@job.num_positions)}
+      - unless @job.expired_on.blank?
+        ' Expired #{@job.expired_on.to_formatted_s(:table_date)}
+
+      => link_to "Edit", edit_job_url(@job), class: "btn btn-success"
+
+      button.btn.btn-danger> data-url="#{job_url(@job)}" data-name="#{@job.title}" data-redirect="#{jobs_url}"
+        ' Delete
+
+      ' #{@job.title}
+
+.job-profile
+  - unless @job.is_verified
+    .row
+      .col-xs-12
+        p.unverified
+          strong> This listing's email is UNVERIFIED, hence not visible to members &rarr;
+          =<> link_to "resend email address verification", \
+            verify_job_url(@job), method: :patch
+  .row
+    .col-md-8.col-sm-6.col-xs-12
+      .row
+        .col-xs-12
+          div = @job.description_as_html
+
+      - unless @job.responsibilities.blank?
+        .row
+          .col-xs-12
+            h2 Job responsibilities
+            div = @job.responsibilities_as_html
+
+      - unless @job.ideal_candidate.blank?
+        .row
+          .col-xs-12
+            h2 Qualities of the ideal candidate
+            div = @job.ideal_candidate_as_html
+
+    .col-md-4.col-sm-6.col-xs-12
+      .row
+        .col-xs-4
+          p class="#{cls}" Posted
+        .col-xs-8
+          p.posted #{@job.posted_on.to_formatted_s(:closing_date)}
+
+      - unless @job.deadline_on.blank?
+        .row
+          .col-xs-4
+            p class="#{cls}" Deadline
+          .col-xs-8
+            p.deadline #{@job.deadline_on.to_formatted_s(:closing_date)}
+
+      .row
+        .col-xs-4
+          p class="#{cls}" Contract
+        .col-xs-8
+          p = Job.ok_contract_types.to_a[@job.contract_type][0]
+
+      .row
+        .col-xs-4
+          p class="#{cls}" Sector
+        .col-xs-8
+          p = Company.ok_sectors.to_a[@job.sector][0]
+
+      .row
+        .col-xs-4
+          p class="#{cls}" City (code)
+        .col-xs-8
+          p
+            => @job.city
+            - if @job.postal_code
+              ' (#{@job.postal_code})
+
+      .row
+        .col-xs-4
+          p class="#{cls}" Country
+        .col-xs-8
+          p = @job.country_code
+
+      - unless @job.experience_level.blank?
+        .row
+          .col-xs-4
+            p class="#{cls}" Experience
+          .col-xs-8
+            p = Job.ok_experience_levels.to_a[@job.experience_level][0]
+
+      .row
+        .col-xs-4
+          p class="#{cls}" Salary
+        .col-xs-8
+          - if @job.salary
+            p
+              => humanized_money_with_symbol(@job.salary)
+              =<> @job.salary.currency.iso_code
+              ' per
+              =<> Job.ok_frequencies.to_a[@job.salary_frequency][0]
+          - else
+            ' Competetive
+
+      .row
+        .col-xs-4
+          p class="#{cls}" Contact person
+        .col-xs-8
+          p = @job.contact_person
+
+      .row
+        .col-xs-4
+          p class="#{cls}" Reference #
+        .col-xs-8
+          p = @job.job_reference

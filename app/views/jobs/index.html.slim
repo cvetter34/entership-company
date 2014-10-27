@@ -1,0 +1,26 @@
+- if @company then breadcrumb( :company_jobs, @company ) else breadcrumb( :jobs )
+.row
+  .col-xs-12
+    table.table.jobs
+      caption
+        .pull-right
+          = link_to "Add a job listing", new_job_url, class: "btn btn-success"
+        ' Jobs listings
+      thead
+        tr
+          th Job title
+
+          th.hidden-sm.hidden-xs Posted
+          th.hidden-sm.hidden-xs Deadline
+      tbody
+        - @jobs.each do |job|
+          tr
+            td
+              - if @company
+                = link_to job.title, company_job_url(@company, job)
+              - else
+                = link_to job.title, job_url(job)
+            td.hidden-sm.hidden-xs title="#{job.posted_on.to_formatted_s(:table_date)}"
+              = job.posted_on.to_formatted_s(:table_date)
+            td.hidden-sm.hidden-xs
+              = job.deadline_on.to_formatted_s(:table_date) if job.deadline_on
